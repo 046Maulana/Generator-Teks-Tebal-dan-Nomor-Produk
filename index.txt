@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Teks Tebal & Nomor Produk</title>
+    <!-- Tailwind CSS untuk styling yang modern dan rapi -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons untuk ikon yang menarik -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navigasi -->
+    <header class="bg-white border-b border-slate-200 py-4 px-6 sticky top-0 z-10 shadow-sm">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 text-white p-2 rounded-lg">
+                    <i data-lucide="hash" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900 tracking-tight">ProdText Generator</h1>
+                    <p class="text-xs text-slate-500">Format nama produk otomatis & teks tebal unicode</p>
+                </div>
+            </div>
+            <div class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full flex items-center gap-1">
+                <span class="w-2 h-2 bg-indigo-600 rounded-full animate-pulse"></span>
+                Siap Digunakan
+            </div>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <main class="max-w-4xl w-full mx-auto p-4 md:p-6 flex-grow grid grid-cols-1 md:grid-cols-12 gap-6">
+        
+        <!-- Bagian Input & Konfigurasi (Kiri) -->
+        <div class="md:col-span-5 flex flex-col gap-5">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <i data-lucide="sliders" class="w-5 h-5 text-indigo-600"></i>
+                    Konfigurasi & Input
+                </h2>
+
+                <!-- Input Nomor Awal -->
+                <div class="mb-4">
+                    <label for="startNumber" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+                        Nomor Urut Mulai
+                    </label>
+                    <div class="relative rounded-lg shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                            <i data-lucide="binary" class="w-4 h-4"></i>
+                        </div>
+                        <input type="number" id="startNumber" value="2993" min="0"
+                            class="block w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent font-mono"
+                            placeholder="Contoh: 2993">
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1">Nomor ini akan bertambah 1 setiap kali generate.</p>
+                </div>
+
+                <!-- Input Pemisah -->
+                <div class="mb-4">
+                    <label for="separator" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+                        Simbol Pemisah
+                    </label>
+                    <input type="text" id="separator" value=" --- "
+                        class="block w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent font-mono text-center"
+                        placeholder="Contoh: ---">
+                </div>
+
+                <!-- Pilihan Gaya Tebal -->
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+                        Gaya Huruf Tebal
+                    </label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="border border-slate-200 rounded-lg p-2.5 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition" id="labelSans">
+                            <input type="radio" name="boldStyle" value="sans" checked class="text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm font-medium">Sans (??????????)</span>
+                        </label>
+                        <label class="border border-slate-200 rounded-lg p-2.5 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition" id="labelSerif">
+                            <input type="radio" name="boldStyle" value="serif" class="text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm font-medium">Serif (??????????)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Input Nama Produk -->
+                <div class="mb-5">
+                    <label for="productName" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+                        Nama Produk
+                    </label>
+                    <textarea id="productName" rows="3"
+                        class="block w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-slate-400 text-sm"
+                        placeholder="Ketik nama produk di sini...&#10;Contoh: Lampu Tidur"></textarea>
+                </div>
+
+                <!-- Tombol Jalankan -->
+                <button id="generateBtn" 
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all transform active:scale-95 flex items-center justify-center gap-2">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    Format & Tambah
+                </button>
+            </div>
+            
+            <!-- Petunjuk Penggunaan Singkat -->
+            <div class="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl text-xs text-indigo-900 leading-relaxed">
+                <h3 class="font-bold flex items-center gap-1.5 mb-1 text-indigo-950">
+                    <i data-lucide="info" class="w-4 h-4 text-indigo-700"></i> Tips Penggunaan:
+                </h3>
+                Hasil generate menggunakan format teks tebal Unicode khusus. Ini berarti teks tebal tersebut akan tetap berupa teks tebal saat Anda salin dan tempel ke media sosial, aplikasi pesan singkat, atau catatan eksternal.
+            </div>
+        </div>
+
+        <!-- Bagian Hasil Generate & Riwayat (Kanan) -->
+        <div class="md:col-span-7 flex flex-col gap-5">
+            <!-- Hasil Instan -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full min-h-[400px]">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="file-text" class="w-5 h-5 text-indigo-600"></i>
+                        Hasil Generate
+                    </h2>
+                    <div class="flex gap-2">
+                        <button id="clearAllBtn" class="text-slate-500 hover:text-rose-600 text-xs font-semibold px-2.5 py-1.5 rounded-lg hover:bg-rose-50 transition flex items-center gap-1">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Bersihkan
+                        </button>
+                        <button id="copyAllBtn" class="bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Semua
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notifikasi Toast Sukses Salin di dalam Area Kerja -->
+                <div id="toast" class="hidden bg-emerald-500 text-white text-xs px-3 py-2 rounded-lg mb-3 flex items-center justify-between transition-all duration-300">
+                    <span class="flex items-center gap-1.5">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        <span id="toastMsg">Teks berhasil disalin ke papan klip!</span>
+                    </span>
+                </div>
+
+                <!-- Area Kosong (Placeholder jika belum ada data) -->
+                <div id="placeholderArea" class="flex-grow flex flex-col items-center justify-center text-center p-8 text-slate-400">
+                    <div class="bg-slate-100 p-4 rounded-full mb-3">
+                        <i data-lucide="text-cursor-input" class="w-10 h-10 text-slate-400"></i>
+                    </div>
+                    <p class="font-medium text-slate-500 mb-1">Belum ada hasil yang dibuat</p>
+                    <p class="text-xs max-w-xs">Masukkan nama produk di panel sebelah kiri lalu klik tombol "Format & Tambah" untuk memulai.</p>
+                </div>
+
+                <!-- Area List Hasil -->
+                <div id="resultsList" class="hidden flex-grow space-y-3 overflow-y-auto max-h-[420px] pr-1">
+                    <!-- Template Item Hasil yang akan ditambahkan via JS -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400 mt-6">
+        <div class="max-w-4xl mx-auto px-6">
+            &copy; 2026 Generator Teks Tebal & Nomor Produk. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Mapping Karakter Tebal Unicode (Sans & Serif)
+        const unicodeBold = {
+            sans: {
+                // Huruf Besar
+                'A': '??', 'B': '??', 'C': '??', 'D': '??', 'E': '??', 'F': '??', 'G': '??', 'H': '??', 'I': '??', 'J': '??', 'K': '??', 'L': '??', 'M': '??', 'N': '??', 'O': '??', 'P': '??', 'Q': '??', 'R': '??', 'S': '??', 'T': '??', 'U': '??', 'V': '??', 'W': '??', 'X': '??', 'Y': '??', 'Z': '??',
+                // Huruf Kecil
+                'a': '??', 'b': '??', 'c': '??', 'd': '??', 'e': '??', 'f': '??', 'g': '??', 'h': '??', 'i': '??', 'j': '??', 'k': '??', 'l': '??', 'm': '??', 'n': '??', 'o': '??', 'p': '??', 'q': '??', 'r': '??', 's': '??', 't': '??', 'u': '??', 'v': '??', 'w': '??', 'x': '??', 'y': '??', 'z': '??',
+                // Angka
+                '0': '??', '1': '??', '2': '??', '3': '??', '4': '??', '5': '??', '6': '??', '7': '??', '8': '??', '9': '??'
+            },
+            serif: {
+                // Huruf Besar
+                'A': '??', 'B': '??', 'C': '??', 'D': '??', 'E': '??', 'F': '??', 'G': '??', 'H': '??', 'I': '??', 'J': '??', 'K': '??', 'L': '??', 'M': '??', 'N': '??', 'O': '??', 'P': '??', 'Q': '??', 'R': '??', 'S': '??', 'T': '??', 'U': '??', 'V': '??', 'W': '??', 'X': '??', 'Y': '??', 'Z': '??',
+                // Huruf Kecil
+                'a': '??', 'b': '??', 'c': '??', 'd': '??', 'e': '??', 'f': '??', 'g': '??', 'h': '??', 'i': '??', 'j': '??', 'k': '??', 'l': '??', 'm': '??', 'n': '??', 'o': '??', 'p': '??', 'q': '??', 'r': '??', 's': '??', 't': '??', 'u': '??', 'v': '??', 'w': '??', 'x': '??', 'y': '??', 'z': '??',
+                // Angka
+                '0': '??', '1': '??', '2': '??', '3': '??', '4': '??', '5': '??', '6': '??', '7': '??', '8': '??', '9': '??'
+            }
+        };
+
+        // DOM Elements
+        const startNumberInput = document.getElementById('startNumber');
+        const separatorInput = document.getElementById('separator');
+        const productNameTextarea = document.getElementById('productName');
+        const generateBtn = document.getElementById('generateBtn');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        const copyAllBtn = document.getElementById('copyAllBtn');
+        const placeholderArea = document.getElementById('placeholderArea');
+        const resultsList = document.getElementById('resultsList');
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMsg');
+
+        // State Penyimpanan lokal sederhana (tidak pakai database luar)
+        let generatedItems = [];
+
+        // Fungsi mengubah teks biasa menjadi unicode tebal
+        function convertToUnicodeBold(text, style = 'sans') {
+            const charMap = unicodeBold[style];
+            return text.split('').map(char => {
+                return charMap[char] || char; // pakai karakter asli jika tidak ada di map
+            }).join('');
+        }
+
+        // Tampilkan Notifikasi Toast Sederhana
+        let toastTimeout;
+        function showToast(message, isSuccess = true) {
+            clearTimeout(toastTimeout);
+            toastMsg.textContent = message;
+            if (isSuccess) {
+                toast.classList.remove('bg-rose-500', 'hidden');
+                toast.classList.add('bg-emerald-500', 'flex');
+            } else {
+                toast.classList.remove('bg-emerald-500', 'hidden');
+                toast.classList.add('bg-rose-500', 'flex');
+            }
+            
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('flex');
+            }, 3000);
+        }
+
+        // Fungsi Menyalin Teks (Menggunakan metode execCommand fallback yang kompatibel di iframe)
+        function copyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            let successful = false;
+            try {
+                successful = document.execCommand('copy');
+            } catch (err) {
+                console.error('Tidak dapat menyalin teks', err);
+            }
+            
+            document.body.removeChild(textArea);
+            return successful;
+        }
+
+        // Memperbarui UI list hasil generate
+        function updateUI() {
+            if (generatedItems.length === 0) {
+                placeholderArea.classList.remove('hidden');
+                resultsList.classList.add('hidden');
+                return;
+            }
+
+            placeholderArea.classList.add('hidden');
+            resultsList.classList.remove('hidden');
+            resultsList.innerHTML = '';
+
+            // Render list dari yang paling baru di atas
+            generatedItems.slice().reverse().forEach((item, index) => {
+                const originalIndex = generatedItems.length - 1 - index;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = "group border border-slate-200 bg-slate-50 rounded-xl p-3.5 flex items-center justify-between gap-4 transition hover:border-indigo-300 hover:bg-white hover:shadow-sm";
+                
+                itemDiv.innerHTML = `
+                    <div class="flex-grow font-mono text-sm md:text-base text-slate-800 break-all select-all font-medium">
+                        ${item.formattedText}
+                    </div>
+                    <div class="flex items-center gap-1.5 flex-shrink-0">
+                        <button onclick="copySingleItem(${originalIndex})" title="Salin"
+                            class="bg-white border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50 text-slate-500 hover:text-indigo-600 p-2 rounded-lg transition-all flex items-center justify-center">
+                            <i data-lucide="copy" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="deleteSingleItem(${originalIndex})" title="Hapus"
+                            class="bg-white border border-slate-200 hover:border-rose-500 hover:bg-rose-50 text-slate-400 hover:text-rose-600 p-2 rounded-lg transition-all flex items-center justify-center">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+                resultsList.appendChild(itemDiv);
+            });
+            
+            // Render ulang ikon Lucide agar ikon baru muncul
+            lucide.createIcons();
+        }
+
+        // Handler tombol Generate
+        generateBtn.addEventListener('click', () => {
+            const rawName = productNameTextarea.value.trim();
+            if (!rawName) {
+                showToast("Silakan masukkan nama produk terlebih dahulu!", false);
+                productNameTextarea.focus();
+                return;
+            }
+
+            const currentNum = parseInt(startNumberInput.value, 10);
+            if (isNaN(currentNum)) {
+                showToast("Nomor urut tidak valid!", false);
+                startNumberInput.focus();
+                return;
+            }
+
+            const separator = separatorInput.value;
+            const styleOption = document.querySelector('input[name="boldStyle"]:checked').value;
+
+            // Proses nama menjadi tebal
+            const boldName = convertToUnicodeBold(rawName, styleOption);
+            
+            // Format teks utuh
+            const finalFormatted = `${currentNum}${separator}${boldName}`;
+
+            // Tambahkan ke list lokal
+            generatedItems.push({
+                number: currentNum,
+                formattedText: finalFormatted
+            });
+
+            // Berhasil dibuat, langsung otomatis salin hasil terbaru ke clipboard untuk efisiensi
+            const successCopy = copyTextToClipboard(finalFormatted);
+
+            // Tambah 1 ke input nomor urut untuk generate selanjutnya
+            startNumberInput.value = currentNum + 1;
+
+            // Bersihkan input teks untuk mempermudah input barang berikutnya
+            productNameTextarea.value = '';
+
+            // Update UI dan tampilkan pesan sukses
+            updateUI();
+            if (successCopy) {
+                showToast(`Sukses dibuat & disalin: "${finalFormatted}"`);
+            } else {
+                showToast(`Sukses dibuat: "${finalFormatted}" (Gagal otomatis salin, silakan salin manual)`);
+            }
+            productNameTextarea.focus();
+        });
+
+        // Handler Salin Satu Item
+        window.copySingleItem = function(index) {
+            if (index >= 0 && index < generatedItems.length) {
+                const textToCopy = generatedItems[index].formattedText;
+                if (copyTextToClipboard(textToCopy)) {
+                    showToast(`Disalin: "${textToCopy}"`);
+                } else {
+                    showToast("Gagal menyalin teks", false);
+                }
+            }
+        };
+
+        // Handler Hapus Satu Item
+        window.deleteSingleItem = function(index) {
+            if (index >= 0 && index < generatedItems.length) {
+                generatedItems.splice(index, 1);
+                updateUI();
+                showToast("Riwayat item dihapus.");
+            }
+        };
+
+        // Handler Salin Semua Hasil (digabung dengan baris baru)
+        copyAllBtn.addEventListener('click', () => {
+            if (generatedItems.length === 0) {
+                showToast("Tidak ada hasil yang bisa disalin!", false);
+                return;
+            }
+
+            const allTexts = generatedItems.map(item => item.formattedText).join('\n');
+            if (copyTextToClipboard(allTexts)) {
+                showToast(`Berhasil menyalin ${generatedItems.length} item sekaligus!`);
+            } else {
+                showToast("Gagal menyalin semua hasil", false);
+            }
+        });
+
+        // Handler Bersihkan Semua Riwayat
+        clearAllBtn.addEventListener('click', () => {
+            if (generatedItems.length === 0) return;
+            
+            // Kita pakai UI konfirmasi di dalam aplikasi
+            const confirmClear = confirm("Apakah Anda yakin ingin menghapus semua daftar riwayat generate?");
+            if (confirmClear) {
+                generatedItems = [];
+                updateUI();
+                showToast("Semua riwayat berhasil dibersihkan.");
+            }
+        });
+
+        // Event listener saat user menekan 'Enter' di textarea (opsional, jika ingin cepat tapi memungkinkan shift+enter)
+        productNameTextarea.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault(); // cegah baris baru
+                generateBtn.click(); // jalankan generator
+            }
+        });
+
+        // Inisialisasi ikon Lucide di awal load
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
