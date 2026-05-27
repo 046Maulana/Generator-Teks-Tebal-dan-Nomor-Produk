@@ -75,19 +75,23 @@
                         placeholder="Contoh: ---">
                 </div>
 
-                <!-- Pilihan Gaya Tebal -->
+                <!-- Pilihan Gaya Huruf -->
                 <div class="mb-4">
                     <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
-                        Gaya Huruf Tebal
+                        Gaya Huruf Nama Produk
                     </label>
-                    <div class="grid grid-cols-2 gap-2">
+                    <div class="grid grid-cols-1 gap-2">
                         <label class="border border-slate-200 rounded-lg p-2.5 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition" id="labelSans">
                             <input type="radio" name="boldStyle" value="sans" checked class="text-indigo-600 focus:ring-indigo-500">
-                            <span class="text-sm font-medium">Sans (𝗟𝗮𝗺𝗽𝘂)</span>
+                            <span class="text-sm font-medium text-slate-700">Sans Tebal (𝗟𝗮𝗺𝗽𝘂)</span>
                         </label>
                         <label class="border border-slate-200 rounded-lg p-2.5 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition" id="labelSerif">
                             <input type="radio" name="boldStyle" value="serif" class="text-indigo-600 focus:ring-indigo-500">
-                            <span class="text-sm font-medium">Serif (𝐋𝐚𝐦𝐩𝐮)</span>
+                            <span class="text-sm font-medium text-slate-700">Serif Tebal (𝐋𝐚𝐦𝐩𝐮)</span>
+                        </label>
+                        <label class="border border-slate-200 rounded-lg p-2.5 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition" id="labelNormal">
+                            <input type="radio" name="boldStyle" value="normal" class="text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm font-medium text-slate-700">Teks Biasa / Normal (Lampu)</span>
                         </label>
                     </div>
                 </div>
@@ -112,9 +116,9 @@
             
             <div class="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl text-xs text-indigo-900 leading-relaxed">
                 <h3 class="font-bold flex items-center gap-1.5 mb-1 text-indigo-950">
-                    <i data-lucide="info" class="w-4 h-4 text-indigo-700"></i> Catatan GitHub Pages:
+                    <i data-lucide="info" class="w-4 h-4 text-indigo-700"></i> Informasi Gaya:
                 </h3>
-                Kode ini telah menggunakan konversi Unicode berbasis algoritma JavaScript murni (offset matematika) sehingga sangat aman dari resiko karakter rusak (*encoding mismatch*) saat di-hosting di GitHub.
+                Gunakan opsi "Teks Biasa / Normal" jika Anda ingin mempertahankan bentuk asli huruf atau tidak ingin menggunakan efek unicode eksternal tebal pada teks Anda.
             </div>
         </div>
 
@@ -170,17 +174,14 @@
 
     <script>
         // Konversi Matematika Karakter Tebal Unicode (Lebih Aman & Anti Gagal di GitHub)
-        // Dibandingkan menyimpan array besar, kita memakai manipulasi kode poin (code point offset) Unicode.
         function getUnicodeBoldChar(char, style = 'sans') {
             const code = char.charCodeAt(0);
             
             // Konversi untuk huruf besar A-Z (Code 65 - 90)
             if (code >= 65 && code <= 90) {
                 if (style === 'sans') {
-                    // Matematika Tebal Sans-Serif (Mulai dari U+1D5D4)
                     return String.fromCodePoint(0x1D5D4 + (code - 65));
-                } else {
-                    // Matematika Tebal Serif (Mulai dari U+1D400)
+                } else if (style === 'serif') {
                     return String.fromCodePoint(0x1D400 + (code - 65));
                 }
             }
@@ -188,10 +189,8 @@
             // Konversi untuk huruf kecil a-z (Code 97 - 122)
             if (code >= 97 && code <= 122) {
                 if (style === 'sans') {
-                    // Matematika Tebal Sans-Serif Kecil (Mulai dari U+1D5EE)
                     return String.fromCodePoint(0x1D5EE + (code - 97));
-                } else {
-                    // Matematika Tebal Serif Kecil (Mulai dari U+1D41A)
+                } else if (style === 'serif') {
                     return String.fromCodePoint(0x1D41A + (code - 97));
                 }
             }
@@ -199,10 +198,8 @@
             // Konversi untuk angka 0-9 (Code 48 - 57)
             if (code >= 48 && code <= 57) {
                 if (style === 'sans') {
-                    // Angka Tebal Sans-Serif (Mulai dari U+1D7EC)
                     return String.fromCodePoint(0x1D7EC + (code - 48));
-                } else {
-                    // Angka Tebal Serif (Mulai dari U+1D7CE)
+                } else if (style === 'serif') {
                     return String.fromCodePoint(0x1D7CE + (code - 48));
                 }
             }
@@ -212,6 +209,10 @@
         }
 
         function convertToUnicodeBold(text, style = 'sans') {
+            // Jika memilih opsi normal, langsung kembalikan teks asli tanpa modifikasi
+            if (style === 'normal') {
+                return text;
+            }
             return text.split('').map(char => getUnicodeBoldChar(char, style)).join('');
         }
 
@@ -287,7 +288,7 @@
             generatedItems.slice().reverse().forEach((item, index) => {
                 const originalIndex = generatedItems.length - 1 - index;
                 const itemDiv = document.createElement('div');
-                itemDiv.className = "group border border-slate-200 bg-slate-50 rounded-xl p-3.5 flex items-center justify-between gap-4 transition hover:border-indigo-300 hover:bg-white hover:shadow-sm animate-fade-in";
+                itemDiv.className = "group border border-slate-200 bg-slate-50 rounded-xl p-3.5 flex items-center justify-between gap-4 transition hover:border-indigo-300 hover:bg-white hover:shadow-sm";
                 
                 itemDiv.innerHTML = `
                     <div class="flex-grow font-mono text-sm md:text-base text-slate-800 break-all select-all font-medium">
@@ -329,9 +330,9 @@
             const separator = separatorInput.value;
             const styleOption = document.querySelector('input[name="boldStyle"]:checked').value;
 
-            // Proses konversi teks tebal secara real-time di sisi pengguna (aman dari masalah encoding file)
-            const boldName = convertToUnicodeBold(rawName, styleOption);
-            const finalFormatted = `${currentNum}${separator}${boldName}`;
+            // Proses konversi gaya teks (Sans, Serif, atau Normal)
+            const processedName = convertToUnicodeBold(rawName, styleOption);
+            const finalFormatted = `${currentNum}${separator}${processedName}`;
 
             generatedItems.push({
                 number: currentNum,
