@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <!-- Tag charset UTF-8 HARUS di baris paling atas head untuk mencegah tanda tanya di GitHub Pages -->
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generator Teks Tebal & Nomor Produk</title>
-    <!-- Tailwind CSS untuk styling yang modern dan rapi -->
+    <!-- Tailwind CSS untuk tampilan yang modern -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons untuk ikon yang menarik -->
+    <!-- Lucide Icons untuk ikon -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
@@ -17,7 +19,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
 
-    <!-- Header / Navigasi -->
+    <!-- Header -->
     <header class="bg-white border-b border-slate-200 py-4 px-6 sticky top-0 z-10 shadow-sm">
         <div class="max-w-4xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -26,12 +28,12 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-bold text-slate-900 tracking-tight">ProdText Generator</h1>
-                    <p class="text-xs text-slate-500">Format nama produk otomatis & teks tebal unicode</p>
+                    <p class="text-xs text-slate-500">Format nama produk otomatis & teks tebal unicode (GitHub Safe)</p>
                 </div>
             </div>
             <div class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full flex items-center gap-1">
                 <span class="w-2 h-2 bg-indigo-600 rounded-full animate-pulse"></span>
-                Siap Digunakan
+                Dukungan UTF-8 Aktif
             </div>
         </div>
     </header>
@@ -39,7 +41,7 @@
     <!-- Konten Utama -->
     <main class="max-w-4xl w-full mx-auto p-4 md:p-6 flex-grow grid grid-cols-1 md:grid-cols-12 gap-6">
         
-        <!-- Bagian Input & Konfigurasi (Kiri) -->
+        <!-- Bagian Input (Kiri) -->
         <div class="md:col-span-5 flex flex-col gap-5">
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                 <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
@@ -60,7 +62,7 @@
                             class="block w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent font-mono"
                             placeholder="Contoh: 2993">
                     </div>
-                    <p class="text-[11px] text-slate-400 mt-1">Nomor ini akan bertambah 1 setiap kali generate.</p>
+                    <p class="text-[11px] text-slate-400 mt-1">Nomor otomatis bertambah +1 setiap kali generate.</p>
                 </div>
 
                 <!-- Input Pemisah -->
@@ -81,11 +83,11 @@
                     <div class="grid grid-cols-2 gap-2">
                         <label class="border border-slate-200 rounded-lg p-2.5 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition" id="labelSans">
                             <input type="radio" name="boldStyle" value="sans" checked class="text-indigo-600 focus:ring-indigo-500">
-                            <span class="text-sm font-medium">Sans (??????????)</span>
+                            <span class="text-sm font-medium">Sans (𝗟𝗮𝗺𝗽𝘂)</span>
                         </label>
                         <label class="border border-slate-200 rounded-lg p-2.5 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition" id="labelSerif">
                             <input type="radio" name="boldStyle" value="serif" class="text-indigo-600 focus:ring-indigo-500">
-                            <span class="text-sm font-medium">Serif (??????????)</span>
+                            <span class="text-sm font-medium">Serif (𝐋𝐚𝐦𝐩𝐮)</span>
                         </label>
                     </div>
                 </div>
@@ -108,18 +110,16 @@
                 </button>
             </div>
             
-            <!-- Petunjuk Penggunaan Singkat -->
             <div class="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl text-xs text-indigo-900 leading-relaxed">
                 <h3 class="font-bold flex items-center gap-1.5 mb-1 text-indigo-950">
-                    <i data-lucide="info" class="w-4 h-4 text-indigo-700"></i> Tips Penggunaan:
+                    <i data-lucide="info" class="w-4 h-4 text-indigo-700"></i> Catatan GitHub Pages:
                 </h3>
-                Hasil generate menggunakan format teks tebal Unicode khusus. Ini berarti teks tebal tersebut akan tetap berupa teks tebal saat Anda salin dan tempel ke media sosial, aplikasi pesan singkat, atau catatan eksternal.
+                Kode ini telah menggunakan konversi Unicode berbasis algoritma JavaScript murni (offset matematika) sehingga sangat aman dari resiko karakter rusak (*encoding mismatch*) saat di-hosting di GitHub.
             </div>
         </div>
 
-        <!-- Bagian Hasil Generate & Riwayat (Kanan) -->
+        <!-- Bagian Hasil Generate (Kanan) -->
         <div class="md:col-span-7 flex flex-col gap-5">
-            <!-- Hasil Instan -->
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full min-h-[400px]">
                 <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
                     <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -136,15 +136,15 @@
                     </div>
                 </div>
 
-                <!-- Notifikasi Toast Sukses Salin di dalam Area Kerja -->
+                <!-- Toast Notifikasi -->
                 <div id="toast" class="hidden bg-emerald-500 text-white text-xs px-3 py-2 rounded-lg mb-3 flex items-center justify-between transition-all duration-300">
                     <span class="flex items-center gap-1.5">
                         <i data-lucide="check-circle" class="w-4 h-4"></i>
-                        <span id="toastMsg">Teks berhasil disalin ke papan klip!</span>
+                        <span id="toastMsg">Teks berhasil disalin!</span>
                     </span>
                 </div>
 
-                <!-- Area Kosong (Placeholder jika belum ada data) -->
+                <!-- Placeholder Area -->
                 <div id="placeholderArea" class="flex-grow flex flex-col items-center justify-center text-center p-8 text-slate-400">
                     <div class="bg-slate-100 p-4 rounded-full mb-3">
                         <i data-lucide="text-cursor-input" class="w-10 h-10 text-slate-400"></i>
@@ -153,9 +153,9 @@
                     <p class="text-xs max-w-xs">Masukkan nama produk di panel sebelah kiri lalu klik tombol "Format & Tambah" untuk memulai.</p>
                 </div>
 
-                <!-- Area List Hasil -->
+                <!-- List Hasil -->
                 <div id="resultsList" class="hidden flex-grow space-y-3 overflow-y-auto max-h-[420px] pr-1">
-                    <!-- Template Item Hasil yang akan ditambahkan via JS -->
+                    <!-- Dinonaktifkan sementara sebelum diisi JS -->
                 </div>
             </div>
         </div>
@@ -169,25 +169,51 @@
     </footer>
 
     <script>
-        // Mapping Karakter Tebal Unicode (Sans & Serif)
-        const unicodeBold = {
-            sans: {
-                // Huruf Besar
-                'A': '??', 'B': '??', 'C': '??', 'D': '??', 'E': '??', 'F': '??', 'G': '??', 'H': '??', 'I': '??', 'J': '??', 'K': '??', 'L': '??', 'M': '??', 'N': '??', 'O': '??', 'P': '??', 'Q': '??', 'R': '??', 'S': '??', 'T': '??', 'U': '??', 'V': '??', 'W': '??', 'X': '??', 'Y': '??', 'Z': '??',
-                // Huruf Kecil
-                'a': '??', 'b': '??', 'c': '??', 'd': '??', 'e': '??', 'f': '??', 'g': '??', 'h': '??', 'i': '??', 'j': '??', 'k': '??', 'l': '??', 'm': '??', 'n': '??', 'o': '??', 'p': '??', 'q': '??', 'r': '??', 's': '??', 't': '??', 'u': '??', 'v': '??', 'w': '??', 'x': '??', 'y': '??', 'z': '??',
-                // Angka
-                '0': '??', '1': '??', '2': '??', '3': '??', '4': '??', '5': '??', '6': '??', '7': '??', '8': '??', '9': '??'
-            },
-            serif: {
-                // Huruf Besar
-                'A': '??', 'B': '??', 'C': '??', 'D': '??', 'E': '??', 'F': '??', 'G': '??', 'H': '??', 'I': '??', 'J': '??', 'K': '??', 'L': '??', 'M': '??', 'N': '??', 'O': '??', 'P': '??', 'Q': '??', 'R': '??', 'S': '??', 'T': '??', 'U': '??', 'V': '??', 'W': '??', 'X': '??', 'Y': '??', 'Z': '??',
-                // Huruf Kecil
-                'a': '??', 'b': '??', 'c': '??', 'd': '??', 'e': '??', 'f': '??', 'g': '??', 'h': '??', 'i': '??', 'j': '??', 'k': '??', 'l': '??', 'm': '??', 'n': '??', 'o': '??', 'p': '??', 'q': '??', 'r': '??', 's': '??', 't': '??', 'u': '??', 'v': '??', 'w': '??', 'x': '??', 'y': '??', 'z': '??',
-                // Angka
-                '0': '??', '1': '??', '2': '??', '3': '??', '4': '??', '5': '??', '6': '??', '7': '??', '8': '??', '9': '??'
+        // Konversi Matematika Karakter Tebal Unicode (Lebih Aman & Anti Gagal di GitHub)
+        // Dibandingkan menyimpan array besar, kita memakai manipulasi kode poin (code point offset) Unicode.
+        function getUnicodeBoldChar(char, style = 'sans') {
+            const code = char.charCodeAt(0);
+            
+            // Konversi untuk huruf besar A-Z (Code 65 - 90)
+            if (code >= 65 && code <= 90) {
+                if (style === 'sans') {
+                    // Matematika Tebal Sans-Serif (Mulai dari U+1D5D4)
+                    return String.fromCodePoint(0x1D5D4 + (code - 65));
+                } else {
+                    // Matematika Tebal Serif (Mulai dari U+1D400)
+                    return String.fromCodePoint(0x1D400 + (code - 65));
+                }
             }
-        };
+            
+            // Konversi untuk huruf kecil a-z (Code 97 - 122)
+            if (code >= 97 && code <= 122) {
+                if (style === 'sans') {
+                    // Matematika Tebal Sans-Serif Kecil (Mulai dari U+1D5EE)
+                    return String.fromCodePoint(0x1D5EE + (code - 97));
+                } else {
+                    // Matematika Tebal Serif Kecil (Mulai dari U+1D41A)
+                    return String.fromCodePoint(0x1D41A + (code - 97));
+                }
+            }
+            
+            // Konversi untuk angka 0-9 (Code 48 - 57)
+            if (code >= 48 && code <= 57) {
+                if (style === 'sans') {
+                    // Angka Tebal Sans-Serif (Mulai dari U+1D7EC)
+                    return String.fromCodePoint(0x1D7EC + (code - 48));
+                } else {
+                    // Angka Tebal Serif (Mulai dari U+1D7CE)
+                    return String.fromCodePoint(0x1D7CE + (code - 48));
+                }
+            }
+            
+            // Karakter lain (spasi, simbol, dsb) biarkan utuh
+            return char;
+        }
+
+        function convertToUnicodeBold(text, style = 'sans') {
+            return text.split('').map(char => getUnicodeBoldChar(char, style)).join('');
+        }
 
         // DOM Elements
         const startNumberInput = document.getElementById('startNumber');
@@ -201,18 +227,10 @@
         const toast = document.getElementById('toast');
         const toastMsg = document.getElementById('toastMsg');
 
-        // State Penyimpanan lokal sederhana (tidak pakai database luar)
+        // State Aplikasi
         let generatedItems = [];
 
-        // Fungsi mengubah teks biasa menjadi unicode tebal
-        function convertToUnicodeBold(text, style = 'sans') {
-            const charMap = unicodeBold[style];
-            return text.split('').map(char => {
-                return charMap[char] || char; // pakai karakter asli jika tidak ada di map
-            }).join('');
-        }
-
-        // Tampilkan Notifikasi Toast Sederhana
+        // Notifikasi Toast
         let toastTimeout;
         function showToast(message, isSuccess = true) {
             clearTimeout(toastTimeout);
@@ -231,7 +249,7 @@
             }, 3000);
         }
 
-        // Fungsi Menyalin Teks (Menggunakan metode execCommand fallback yang kompatibel di iframe)
+        // Fungsi Salin ke Papan Klip secara kompatibel
         function copyTextToClipboard(text) {
             const textArea = document.createElement("textarea");
             textArea.value = text;
@@ -253,7 +271,7 @@
             return successful;
         }
 
-        // Memperbarui UI list hasil generate
+        // Perbarui Tampilan List Riwayat
         function updateUI() {
             if (generatedItems.length === 0) {
                 placeholderArea.classList.remove('hidden');
@@ -265,11 +283,11 @@
             resultsList.classList.remove('hidden');
             resultsList.innerHTML = '';
 
-            // Render list dari yang paling baru di atas
+            // Render list (data terbaru di bagian atas)
             generatedItems.slice().reverse().forEach((item, index) => {
                 const originalIndex = generatedItems.length - 1 - index;
                 const itemDiv = document.createElement('div');
-                itemDiv.className = "group border border-slate-200 bg-slate-50 rounded-xl p-3.5 flex items-center justify-between gap-4 transition hover:border-indigo-300 hover:bg-white hover:shadow-sm";
+                itemDiv.className = "group border border-slate-200 bg-slate-50 rounded-xl p-3.5 flex items-center justify-between gap-4 transition hover:border-indigo-300 hover:bg-white hover:shadow-sm animate-fade-in";
                 
                 itemDiv.innerHTML = `
                     <div class="flex-grow font-mono text-sm md:text-base text-slate-800 break-all select-all font-medium">
@@ -289,11 +307,10 @@
                 resultsList.appendChild(itemDiv);
             });
             
-            // Render ulang ikon Lucide agar ikon baru muncul
             lucide.createIcons();
         }
 
-        // Handler tombol Generate
+        // Aksi Tombol Generate
         generateBtn.addEventListener('click', () => {
             const rawName = productNameTextarea.value.trim();
             if (!rawName) {
@@ -312,38 +329,34 @@
             const separator = separatorInput.value;
             const styleOption = document.querySelector('input[name="boldStyle"]:checked').value;
 
-            // Proses nama menjadi tebal
+            // Proses konversi teks tebal secara real-time di sisi pengguna (aman dari masalah encoding file)
             const boldName = convertToUnicodeBold(rawName, styleOption);
-            
-            // Format teks utuh
             const finalFormatted = `${currentNum}${separator}${boldName}`;
 
-            // Tambahkan ke list lokal
             generatedItems.push({
                 number: currentNum,
                 formattedText: finalFormatted
             });
 
-            // Berhasil dibuat, langsung otomatis salin hasil terbaru ke clipboard untuk efisiensi
+            // Otomatis Salin Hasil
             const successCopy = copyTextToClipboard(finalFormatted);
 
-            // Tambah 1 ke input nomor urut untuk generate selanjutnya
+            // Increment Angka
             startNumberInput.value = currentNum + 1;
 
-            // Bersihkan input teks untuk mempermudah input barang berikutnya
+            // Bersihkan input teks untuk produk berikutnya
             productNameTextarea.value = '';
 
-            // Update UI dan tampilkan pesan sukses
             updateUI();
             if (successCopy) {
-                showToast(`Sukses dibuat & disalin: "${finalFormatted}"`);
+                showToast(`Sukses & disalin: "${finalFormatted}"`);
             } else {
-                showToast(`Sukses dibuat: "${finalFormatted}" (Gagal otomatis salin, silakan salin manual)`);
+                showToast(`Sukses dibuat: "${finalFormatted}" (Gagal auto-salin)`);
             }
             productNameTextarea.focus();
         });
 
-        // Handler Salin Satu Item
+        // Salin Item Terpilih
         window.copySingleItem = function(index) {
             if (index >= 0 && index < generatedItems.length) {
                 const textToCopy = generatedItems[index].formattedText;
@@ -355,16 +368,16 @@
             }
         };
 
-        // Handler Hapus Satu Item
+        // Hapus Satu Item
         window.deleteSingleItem = function(index) {
             if (index >= 0 && index < generatedItems.length) {
                 generatedItems.splice(index, 1);
                 updateUI();
-                showToast("Riwayat item dihapus.");
+                showToast("Item berhasil dihapus.");
             }
         };
 
-        // Handler Salin Semua Hasil (digabung dengan baris baru)
+        // Salin Semua Hasil
         copyAllBtn.addEventListener('click', () => {
             if (generatedItems.length === 0) {
                 showToast("Tidak ada hasil yang bisa disalin!", false);
@@ -379,12 +392,11 @@
             }
         });
 
-        // Handler Bersihkan Semua Riwayat
+        // Bersihkan Semua Riwayat
         clearAllBtn.addEventListener('click', () => {
             if (generatedItems.length === 0) return;
             
-            // Kita pakai UI konfirmasi di dalam aplikasi
-            const confirmClear = confirm("Apakah Anda yakin ingin menghapus semua daftar riwayat generate?");
+            const confirmClear = confirm("Apakah Anda yakin ingin menghapus semua daftar riwayat?");
             if (confirmClear) {
                 generatedItems = [];
                 updateUI();
@@ -392,15 +404,15 @@
             }
         });
 
-        // Event listener saat user menekan 'Enter' di textarea (opsional, jika ingin cepat tapi memungkinkan shift+enter)
+        // Dukungan enter cepat di textarea
         productNameTextarea.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault(); // cegah baris baru
-                generateBtn.click(); // jalankan generator
+                e.preventDefault();
+                generateBtn.click();
             }
         });
 
-        // Inisialisasi ikon Lucide di awal load
+        // Jalankan inisialisasi ikon Lucide
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
         });
