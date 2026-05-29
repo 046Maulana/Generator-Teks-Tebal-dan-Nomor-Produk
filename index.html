@@ -81,17 +81,23 @@
                         Gaya Huruf Nama Produk
                     </label>
                     <div class="grid grid-cols-1 gap-2">
+                        <label class="border border-indigo-200 bg-indigo-50/30 rounded-lg p-2.5 flex items-center gap-2 cursor-pointer hover:bg-indigo-50 transition animate-pulse-subtle" id="labelCombo">
+                            <input type="radio" name="boldStyle" value="combo" checked class="text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm font-medium text-slate-800">
+                                <span class="text-indigo-700 font-bold">Kombinasi Duplikat</span> (𝗟𝗮𝗺𝗽𝘂 𝗧𝗶𝗱𝘂𝗿 Lampu Tidur)
+                            </span>
+                        </label>
                         <label class="border border-slate-200 rounded-lg p-2.5 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition" id="labelSans">
-                            <input type="radio" name="boldStyle" value="sans" checked class="text-indigo-600 focus:ring-indigo-500">
-                            <span class="text-sm font-medium text-slate-700">Sans Tebal (𝗟𝗮𝗺𝗽𝘂)</span>
+                            <input type="radio" name="boldStyle" value="sans" class="text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm font-medium text-slate-700">Semua Sans Tebal (𝗟𝗮𝗺𝗽𝘂 𝗧𝗶𝗱𝘂𝗿)</span>
                         </label>
                         <label class="border border-slate-200 rounded-lg p-2.5 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition" id="labelSerif">
                             <input type="radio" name="boldStyle" value="serif" class="text-indigo-600 focus:ring-indigo-500">
-                            <span class="text-sm font-medium text-slate-700">Serif Tebal (𝐋𝐚𝐦𝐩𝐮)</span>
+                            <span class="text-sm font-medium text-slate-700">Semua Serif Tebal (𝐋𝐚𝐦𝐩𝐮 𝐓𝐢𝐝𝐮𝐫)</span>
                         </label>
                         <label class="border border-slate-200 rounded-lg p-2.5 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition" id="labelNormal">
                             <input type="radio" name="boldStyle" value="normal" class="text-indigo-600 focus:ring-indigo-500">
-                            <span class="text-sm font-medium text-slate-700">Teks Biasa / Normal (Lampu)</span>
+                            <span class="text-sm font-medium text-slate-700">Semua Teks Biasa (Lampu Tidur)</span>
                         </label>
                     </div>
                 </div>
@@ -116,9 +122,9 @@
             
             <div class="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl text-xs text-indigo-900 leading-relaxed">
                 <h3 class="font-bold flex items-center gap-1.5 mb-1 text-indigo-950">
-                    <i data-lucide="info" class="w-4 h-4 text-indigo-700"></i> Informasi Gaya:
+                    <i data-lucide="info" class="w-4 h-4 text-indigo-700"></i> Informasi Kombinasi:
                 </h3>
-                Gunakan opsi "Teks Biasa / Normal" jika Anda ingin mempertahankan bentuk asli huruf atau tidak ingin menggunakan efek unicode eksternal tebal pada teks Anda.
+                Mode ini akan menghasilkan teks tebal di depan dan teks biasa di belakangnya yang dipisahkan oleh satu spasi kosong. Sangat cocok untuk optimasi pencarian sistem toko online atau marketplace.
             </div>
         </div>
 
@@ -179,7 +185,7 @@
             
             // Konversi untuk huruf besar A-Z (Code 65 - 90)
             if (code >= 65 && code <= 90) {
-                if (style === 'sans') {
+                if (style === 'sans' || style === 'combo') {
                     return String.fromCodePoint(0x1D5D4 + (code - 65));
                 } else if (style === 'serif') {
                     return String.fromCodePoint(0x1D400 + (code - 65));
@@ -188,7 +194,7 @@
             
             // Konversi untuk huruf kecil a-z (Code 97 - 122)
             if (code >= 97 && code <= 122) {
-                if (style === 'sans') {
+                if (style === 'sans' || style === 'combo') {
                     return String.fromCodePoint(0x1D5EE + (code - 97));
                 } else if (style === 'serif') {
                     return String.fromCodePoint(0x1D41A + (code - 97));
@@ -197,7 +203,7 @@
             
             // Konversi untuk angka 0-9 (Code 48 - 57)
             if (code >= 48 && code <= 57) {
-                if (style === 'sans') {
+                if (style === 'sans' || style === 'combo') {
                     return String.fromCodePoint(0x1D7EC + (code - 48));
                 } else if (style === 'serif') {
                     return String.fromCodePoint(0x1D7CE + (code - 48));
@@ -213,6 +219,16 @@
             if (style === 'normal') {
                 return text;
             }
+
+            // Jika memilih opsi kombinasi duplikat (Seluruh Teks Tebal + Spasi + Seluruh Teks Normal)
+            if (style === 'combo') {
+                // Buat seluruh input teks menjadi tebal (menggunakan Sans-Serif Bold)
+                const boldFullText = text.split('').map(char => getUnicodeBoldChar(char, 'sans')).join('');
+                // Gabungkan teks tebal tersebut dengan spasi, lalu teks asli di belakangnya
+                return `${boldFullText} ${text}`;
+            }
+
+            // Untuk gaya Sans/Serif penuh tanpa duplikasi
             return text.split('').map(char => getUnicodeBoldChar(char, style)).join('');
         }
 
@@ -330,7 +346,7 @@
             const separator = separatorInput.value;
             const styleOption = document.querySelector('input[name="boldStyle"]:checked').value;
 
-            // Proses konversi gaya teks (Sans, Serif, atau Normal)
+            // Proses konversi gaya teks sesuai opsi (Kombinasi, Sans, Serif, atau Normal)
             const processedName = convertToUnicodeBold(rawName, styleOption);
             const finalFormatted = `${currentNum}${separator}${processedName}`;
 
